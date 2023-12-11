@@ -1,6 +1,7 @@
 const { validationResult } = require("express-validator");
-
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
 const User = require("../models/user");
 
 exports.postLogin = async (req, res, next) => {
@@ -13,7 +14,10 @@ exports.postLogin = async (req, res, next) => {
       throw error;
     }
     const user = await User.findOne({ email: req.body.email });
-    return res.status(200).json({ userId: user.id });
+    const token = jwt.sign({ userId: user._id }, process.env.TOKEN_SECRET, {
+      expiresIn: "1h",
+    });
+    return res.status(200).json({ token: token, userId: user.id });
   } catch (err) {
     next(err);
   }
@@ -33,7 +37,10 @@ exports.postRegister = async (req, res, next) => {
     const hashedPassword = await bcrypt.hash(password, 12);
     const user = new User({ email: email, password: hashedPassword });
     await user.save();
-    return res.status(200).json({ userId: user.id });
+    const token = jwt.sign({ userId: user._id }, process.env.TOKEN_SECRET, {
+      expiresIn: "1h",
+    });
+    return res.status(200).json({ token: token, userId: user.id });
   } catch (err) {
     next(err);
   }
