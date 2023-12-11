@@ -13,7 +13,7 @@ exports.validateLogin = () => {
       .isLength({ min: 6 })
       .escape(),
     body("email")
-      .custom(async (value, req) => {
+      .custom(async (value, { req }) => {
         const user = await User.findOne({ email: value });
         if (!user) {
           throw new Error("Invalid e-mail or password");
@@ -45,7 +45,7 @@ exports.validateRegister = () => {
     body("email")
       .custom(async (value) => {
         const user = await User.findOne({ email: value });
-        if (!user) {
+        if (user) {
           throw new Error("User already exists!");
         }
       })
