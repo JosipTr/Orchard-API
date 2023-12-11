@@ -1,4 +1,4 @@
-exports.errorMiddleware = (error, req, res, next) => {
+module.exports = (error, req, res, next) => {
     console.log(error);
     const message = error.message || "Something went wrong with the server!";
     const status = error.statusCode || 500;
