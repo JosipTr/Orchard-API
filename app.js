@@ -4,15 +4,17 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 
+const middleware = require("./middleware/index");
+const router = require("./routes/index");
+
 const app = express();
 
 app.use(bodyParser.json());
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  next();
-});
+app.use(middleware.accessMiddleware);
+
+app.use(router.authRouter);
+
+app.use(middleware.errorMiddleware);
 
 mongoose
   .connect(MONGO_DB_URI)
