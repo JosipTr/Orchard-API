@@ -14,9 +14,10 @@ exports.postLogin = async (req, res, next) => {
       throw error;
     }
     const user = await User.findOne({ email: req.body.email });
-    const token = jwt.sign({ userId: user._id }, process.env.TOKEN_SECRET, {
-      expiresIn: "1h",
-    });
+    const token = singUpToken(user._id);
+    // const token = jwt.sign({ userId: user._id }, process.env.TOKEN_SECRET, {
+    //   expiresIn: "1h",
+    // });
     return res.status(200).json({ token: token, userId: user.id });
   } catch (err) {
     next(err);
@@ -37,11 +38,19 @@ exports.postRegister = async (req, res, next) => {
     const hashedPassword = await bcrypt.hash(password, 12);
     const user = new User({ email: email, password: hashedPassword });
     await user.save();
-    const token = jwt.sign({ userId: user._id }, process.env.TOKEN_SECRET, {
-      expiresIn: "1h",
-    });
+    const token = singUpToken(user._id);
+    // const token = jwt.sign({ userId: user._id }, process.env.TOKEN_SECRET, {
+    //   expiresIn: "1h",
+    // });
     return res.status(200).json({ token: token, userId: user.id });
   } catch (err) {
     next(err);
   }
+};
+
+singUpToken = (userId) => {
+  const token = jwt.sign({ userId: userId }, process.env.TOKEN_SECRET, {
+    expiresIn: "1h",
+  });
+  return token;
 };
