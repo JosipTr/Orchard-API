@@ -13,6 +13,7 @@ app.use(bodyParser.json());
 app.use(middleware.accessMiddleware);
 
 app.use(router.authRouter);
+app.use(router.productsRouter);
 
 app.use(middleware.errorMiddleware);
 
