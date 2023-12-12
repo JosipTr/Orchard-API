@@ -18,7 +18,7 @@ exports.postLogin = async (req, res, next) => {
     // const token = jwt.sign({ userId: user._id }, process.env.TOKEN_SECRET, {
     //   expiresIn: "1h",
     // });
-    return res.status(200).json({ token: token, userId: user.id });
+    return res.status(200).json({ token: token });
   } catch (err) {
     next(err);
   }
@@ -42,7 +42,7 @@ exports.postRegister = async (req, res, next) => {
     // const token = jwt.sign({ userId: user._id }, process.env.TOKEN_SECRET, {
     //   expiresIn: "1h",
     // });
-    return res.status(200).json({ token: token, userId: user.id });
+    return res.status(200).json({ token: token });
   } catch (err) {
     next(err);
   }
