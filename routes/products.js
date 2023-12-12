@@ -5,6 +5,12 @@ const middleware = require("../middleware/index");
 
 const router = express.Router();
 
-router.get("/products", middleware.authMiddleware ,controller.getProducts);
+router.get("/products", controller.getProducts);
+
+router.post(
+  "/add-product",
+  middleware.authMiddleware,
+  controller.postAddProduct
+);
 
 module.exports = router;

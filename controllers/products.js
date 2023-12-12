@@ -12,3 +12,22 @@ exports.getProducts = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.postAddProduct = async (req, res, next) => {
+  const name = req.body.name;
+  const imageUrl = req.body.imageUrl;
+
+  console.log(name, imageUrl)
+
+  try {
+    const product = new Product({
+      name: name,
+      imageUrl: imageUrl,
+    });
+    await product.save();
+    res.status(201).json({ message: "Product added!" });
+    return;
+  } catch (err) {
+    next(err);
+  }
+};
