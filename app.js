@@ -8,6 +8,7 @@ const middleware = require("./middleware/index");
 const router = require("./routes/index");
 
 const app = express();
+app.use(express.static("public"));
 
 app.use(bodyParser.json());
 app.use(middleware.accessMiddleware);
