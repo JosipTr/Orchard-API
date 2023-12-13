@@ -13,7 +13,7 @@ const cartSchema = new Schema({
     },
   ],
   user: {
-    type: req.userId,
+    type: Schema.Types.ObjectId,
     ref: "User",
   },
 });
