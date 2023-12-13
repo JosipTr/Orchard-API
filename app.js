@@ -16,6 +16,7 @@ app.use(middleware.accessMiddleware);
 app.use(router.authRouter);
 app.use(router.productsRouter);
 app.use(router.userRouter);
+app.use(router.cartRouter);
 
 app.use(middleware.errorMiddleware);
 
